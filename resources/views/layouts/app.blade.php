@@ -111,6 +111,14 @@
                                     <i class="si si-calendar"></i>
                                     <span class="sidebar-mini-hide">Time Tables</span></a>
                             </li>
+<<<<<<< HEAD
+=======
+                            <li>
+                                <a class="@yield('attendances')" href="{{route('attendances.index')}}">
+                                    <i class="si si-pie-chart"></i>
+                                    <span class="sidebar-mini-hide">Attendances</span></a>
+                            </li>
+>>>>>>> master
 
                             <li class="nav-main-heading"><span class="sidebar-mini-visible">MR</span><span
                                         class="sidebar-mini-hidden">More</span></li>
@@ -189,7 +197,7 @@
     </script>
 @endif
 <script>
-    if ($.fn.dataTable) $.fn.dataTable.ext.errMode = 'none';
+    if ($.fn.dataTable.ext) $.fn.dataTable.ext.errMode = 'none';
 </script>
 </body>
 </html>

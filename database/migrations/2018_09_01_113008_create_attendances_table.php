@@ -19,6 +19,7 @@ class CreateAttendancesTable extends Migration
             $table->integer('department_id')->unsigned();
             $table->integer('lecturer_id')->unsigned();
             $table->integer('student_id')->unsigned();
+            $table->dateTime('date');
             $table->integer('status')->default(0)->comment = "either 0(absent), 1 present or other future values";
             $table->timestamps();
 

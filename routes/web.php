@@ -107,7 +107,26 @@ Route::group(['middleware' => ['SentinelAuth']], function () {
         'uses' => 'TimeTablesController@getTimeTable',
         'as' => 'ajax.timetables.get'
     ]);
-    //-------TimeTable ROUTE ENDS -------------//
+    //-------TIMETABLE ROUTE ENDS -------------//
+
+    //-------ATTENDANCES ROUTE ------------------//
+    Route::resource('attendances', 'AttendancesController');
+
+    Route::get('/ajax/attendances/visual/records/{department_id?}/{level?}', [
+        'uses' => 'AttendancesController@attendancesRecords',
+        'as' => 'ajax.attendances.visual.records'
+    ]);
+
+    Route::get('/ajax/attendances/records', [
+        'uses' => 'DataTablesController@attendaceRecords',
+        'as' => 'ajax.attendances.records'
+    ]);
+
+    Route::get('/ajax/attendances/get/{id?}', [
+        'uses' => 'AttendancesController@getTimeTable',
+        'as' => 'ajax.attendances.get'
+    ]);
+//-------ATTENDANCES ROUTE ENDS -------------//
 
 
 });
