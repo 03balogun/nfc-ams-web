@@ -1,0 +1,5 @@
+/*
+ *  Document   : be_comp_maps_vector.js
+ *  Author     : pixelcave
+ */
+var BeCompMapsVector=function(){var e={map:"",backgroundColor:"#ffffff",regionStyle:{initial:{fill:"#42a5f5","fill-opacity":1,stroke:"none","stroke-width":0,"stroke-opacity":1},hover:{"fill-opacity":.8,cursor:"pointer"}}},o=function(){e.map="world_mill_en",jQuery(".js-vector-map-world").vectorMap(e)},r=function(){e.map="europe_mill_en",jQuery(".js-vector-map-europe").vectorMap(e)},a=function(){e.map="us_aea_en",jQuery(".js-vector-map-usa").vectorMap(e)},n=function(){e.map="in_mill_en",jQuery(".js-vector-map-india").vectorMap(e)},t=function(){e.map="cn_mill_en",jQuery(".js-vector-map-china").vectorMap(e)},i=function(){e.map="au_mill_en",jQuery(".js-vector-map-australia").vectorMap(e)},c=function(){e.map="za_mill_en",jQuery(".js-vector-map-south-africa").vectorMap(e)},p=function(){e.map="fr_mill_en",jQuery(".js-vector-map-france").vectorMap(e)},u=function(){e.map="de_mill_en",jQuery(".js-vector-map-germany").vectorMap(e)};return{init:function(){o(),r(),a(),n(),t(),i(),c(),p(),u()}}}();jQuery(function(){BeCompMapsVector.init()});

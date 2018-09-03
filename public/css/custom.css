@@ -1,0 +1,64 @@
+
+.content-header {
+    padding-left: 20px !important;
+    padding-right: 60px !important;
+}
+
+.modal-footer {
+    border-top: 1px solid #343a4012;
+}
+
+.profile-avatar {
+    width: 220px;
+    box-shadow: 1px 1px 6px #ccc;
+    height: 150px;
+    object-fit: cover
+}
+
+.notification-bar {
+    height: 50px;
+    padding-top: 13px;
+    width: 100%;
+    box-shadow: 0 2px 3px 0 #ccc;
+    display: none;
+    background-color: #6d9a39 !important;
+}
+
+.text-fade {
+    color: #cdd2d78c !important
+}
+
+.swal-button--cancel {
+    color: #fff;
+    background-color: #fc4e1d !important;
+    border: none;
+}
+
+.swal-button--cancel:active {
+    background-color: #ef5350 !important;
+}
+
+.swal-button--yes, .swal-button--confirm {
+    background-color: #9ccc65 !important;
+    border: none;
+    text-shadow: none;
+}
+
+.swal-button--yes:active, .swal-button--confirm:active {
+    background-color: #82a55b !important;
+}
+
+.pending, .in_progress, .part_payment {
+    color: #fff;
+    background-color: #ffca28;
+}
+
+.paid, .done, .delivered {
+    color: #fff;
+    background-color: #9ccc65;
+}
+
+.cancelled {
+    color: #fff;
+    background-color: #ef5350;
+}
