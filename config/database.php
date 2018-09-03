@@ -2,10 +2,10 @@
 
 $dbparts = parse_url(getenv("JAWSDB_URL"));
 $host = isset($dbparts["host"])? $dbparts["host"] : null;
+$port = isset($dbparts["port"])? $dbparts["port"] : null;
 $username = isset($dbparts["user"])?$dbparts["user"]:null;
 $password = isset($dbparts["pass"])?$dbparts["pass"]:null;
-$database = isset($dbparts["path"])?substr($dbparts["path"], 1):null;
-
+$database = isset($dbparts["path"])?ltrim($dbparts["path"], '/'):null;
 return [
 
     /*
@@ -47,11 +47,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => $host || env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => $database || env('DB_DATABASE', 'forge'),
-            'username' => $username || env('DB_USERNAME', 'forge'),
-            'password' => $password || env('DB_PASSWORD', ''),
+            'host' => $host,
+            'port' => $port,
+            'database' => $database,
+            'username' => $username,
+            'password' => $password,
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
