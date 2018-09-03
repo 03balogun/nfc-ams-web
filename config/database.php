@@ -1,6 +1,6 @@
 <?php
 
-$dbparts = parse_url(getenv("JAWSDB_URL"));
+$dbparts = parse_url(getenv("CLEARDB_DATABASE_URL"));
 $host = isset($dbparts["host"])? $dbparts["host"] : null;
 $port = isset($dbparts["port"])? $dbparts["port"] : null;
 $username = isset($dbparts["user"])?$dbparts["user"]:null;
