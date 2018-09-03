@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\AMS\Ams;
-use App\AMS\Modules\Departments\Forms\DepartmentForm;
-use App\AMS\Modules\Departments\Validators\ValidateCreateDepartment;
+use App\AMS\Modules\Attendances\Forms\AttendanceForm;
+use App\AMS\Modules\Attendances\Validators\ValidateCreateAttendance;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
 
-class DepartmentsController extends Controller
+class AttendancesController extends Controller
 {
-    protected $module_name = 'departments';
+    protected $module_name = 'attendances';
     protected $ams;
 
     public function __construct(Ams $ams)
@@ -26,10 +26,15 @@ class DepartmentsController extends Controller
      */
     public function index(FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create(DepartmentForm::class, [
+        $form = $formBuilder->create(AttendanceForm::class, [
             'method' => 'POST',
             'url' => route($this->module_name . '.store'),
-            'data' => []
+            'data' => [
+                'lecturers' => $this->ams->lecturers()->getRecordsArray(['id','name'])->data,
+                'departments' => $this->ams->departments()->getRecordsArray(['id','name'])->data,
+                'courses' => $this->ams->courses()->getRecordsArray(['id','title'],
+                    ['key'=>'id','value'=>'title'])->data,
+            ]
         ]);
 
         return view($this->module_name.'.index', compact('form'));
@@ -48,13 +53,13 @@ class DepartmentsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  ValidateCreateDepartment  $request
+     * @param  ValidateCreateAttendance  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ValidateCreateDepartment $request)
+    public function store(ValidateCreateAttendance $request)
     {
         $data = array_only($request->all(), ['name']);
-        $store = $this->ams->departments()->create($data);
+        $store = $this->ams->attendances()->create($data);
         return response()->json($store);
     }
 
@@ -69,11 +74,11 @@ class DepartmentsController extends Controller
         //
     }
 
-    public function getDepartment($id)
+    public function getAttendance($id)
     {
         if ($id) {
-            $department = $this->ams->departments()->get($id);
-            return response()->json($department);
+            $attendance = $this->ams->attendances()->get($id);
+            return response()->json($attendance);
         }
         return response()->json(systemResponse()->status(false));
     }
@@ -99,7 +104,7 @@ class DepartmentsController extends Controller
     public function update(Request $request, $id)
     {
         $data = array_only($request->all(), ['name']);
-        $update = $this->ams->departments()->update($data,$id);
+        $update = $this->ams->attendances()->update($data,$id);
         return response()->json($update);
     }
 
@@ -111,7 +116,7 @@ class DepartmentsController extends Controller
      */
     public function destroy($id)
     {
-        $delete = $this->ams->departments()->delete($id);
+        $delete = $this->ams->attendances()->delete($id);
         return response()->json($delete);
     }
 }

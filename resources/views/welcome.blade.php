@@ -1,8 +1,11 @@
 @extends('layouts.app')
 @section('title') Login @endsection
 @section('content')
-    <div class="bg-body-dark bg-pattern"
-         style="background-image: url('{{asset('assets/img/various/bg-pattern-inverse.png')}}');">
+    <div class="bg-body-dark"
+         style="background-image: url('{{asset('assets/img/various/bg-pattern-inverse.png')}}'),linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+                 background-blend-mode: multiply;
+                 background-repeat: no-repeat;
+                 background-size: cover;">
         <div class="row mx-0 justify-content-center">
             <div class="hero-static col-lg-6 col-xl-4">
                 <div class="content content-full overflow-hidden">
@@ -12,7 +15,7 @@
                             {{--<span class="font-size-xl text-primary-dark">T</span><span--}}
                                     {{--class="font-size-xl">Klin</span>--}}
                         </a>
-                        <h1 class="h4 font-w700 mt-30 mb-10">ATTENDANCE MANAGEMENT SYSTEM</h1>
+                        <h1 class="h4 font-w700 text-white mt-30 mb-10">NFC - ATTENDANCE MANAGEMENT SYSTEM</h1>
                         <h2 class="h5 font-w400 text-muted mb-0"></h2>
                     </div>
                     <form class="js-validation-signin" action="{{route('login.post')}}" method="post">

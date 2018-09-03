@@ -92,7 +92,7 @@
         </div>
         <div class="block block-rounded " id="timetable-wrapper-section">
             <div class="block-header block-header-default">
-                <h3 class="block-title" style=""><i class="si si-calendar"></i>Week View</h3>
+                <h3 class="block-title" style=""><i class="si si-calendar"></i> Week View</h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" onclick="Codebase.helpers('print-page');">
                         <i class="si si-printer"></i> Print TimeTable
