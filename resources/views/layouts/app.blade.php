@@ -111,12 +111,6 @@
                                     <i class="si si-calendar"></i>
                                     <span class="sidebar-mini-hide">Time Tables</span></a>
                             </li>
-                            <li>
-                                <a class="@yield('attendances')" href="{{route('attendances.index')}}">
-                                    <i class="si si-pie-chart"></i>
-                                    <span class="sidebar-mini-hide">Attendances</span></a>
-                            </li>
-
 
                             <li class="nav-main-heading"><span class="sidebar-mini-visible">MR</span><span
                                         class="sidebar-mini-hidden">More</span></li>
