@@ -118,8 +118,13 @@ Route::group(['middleware' => ['SentinelAuth']], function () {
     ]);
 
     Route::get('/ajax/attendances/records', [
-        'uses' => 'DataTablesController@attendaceRecords',
+        'uses' => 'DataTablesController@attendanceRecords',
         'as' => 'ajax.attendances.records'
+    ]);
+
+    Route::get('/ajax/attendances/chart-records/{department?}/{course?}/{date?}', [
+        'uses' => 'AttendancesController@chartRecords',
+        'as' => 'ajax.attendances.chart-records'
     ]);
 
     Route::get('/ajax/attendances/get/{id?}', [
@@ -127,6 +132,30 @@ Route::group(['middleware' => ['SentinelAuth']], function () {
         'as' => 'ajax.attendances.get'
     ]);
 //-------ATTENDANCES ROUTE ENDS -------------//
+
+//-------STUDENT REPORT ROUTE ------------------//
+    Route::resource('student_reports', 'StudentReportsController');
+
+    Route::get('/ajax/student_reports/visual/records/{student?}/{date_from?}/{date_to?}', [
+        'uses' => 'StudentReportsController@student_reportsVisual',
+        'as' => 'ajax.student_reports.visual.records'
+    ]);
+
+    Route::get('/ajax/student_reports/records/{student?}/{date_from?}/{date_to?}', [
+        'uses' => 'StudentReportsController@student_reportRecords',
+        'as' => 'ajax.student_reports.records'
+    ]);
+
+    Route::get('/ajax/student_reports/chart-records/{department?}/{course?}/{date?}', [
+        'uses' => 'StudentReportsController@chartRecords',
+        'as' => 'ajax.student_reports.chart-records'
+    ]);
+
+    Route::get('/ajax/student_reports/get/{id?}', [
+        'uses' => 'StudentReportsController@getTimeTable',
+        'as' => 'ajax.student_reports.get'
+    ]);
+//-------STUDENT REPORT ROUTE ENDS -------------//
 
 
 });

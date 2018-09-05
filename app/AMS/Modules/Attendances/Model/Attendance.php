@@ -17,5 +17,15 @@ class Attendance extends Model{
         return $this->belongsTo('App\AMS\Modules\Lecturers\Model\Lecturer');
     }
 
+    function student()
+    {
+        return $this->belongsTo('App\AMS\Modules\Students\Model\Student');
+    }
+
+    function course()
+    {
+        return $this->belongsTo('App\AMS\Modules\Courses\Model\Course');
+    }
+
 
 }

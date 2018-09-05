@@ -21,12 +21,15 @@ class CreateAttendancesTable extends Migration
             $table->integer('student_id')->unsigned();
             $table->dateTime('date');
             $table->integer('status')->default(0)->comment = "either 0(absent), 1 present or other future values";
+            $table->longText('note')->nullable();
             $table->timestamps();
 
-            $table->foreign("course_id")->references("id")->on("courses")->onDelete('cascade');;
-            $table->foreign("department_id")->references("id")->on("departments")->onDelete('cascade');;
-            $table->foreign("student_id")->references("id")->on("students")->onDelete('cascade');;
-            $table->foreign("lecturer_id")->references("id")->on("lecturers")->onDelete('cascade');;
+            $table->unique(['course_id','lecturer_id','student_id','date']);
+
+            $table->foreign("course_id")->references("id")->on("courses")->onDelete('cascade');
+            $table->foreign("department_id")->references("id")->on("departments")->onDelete('cascade');
+            $table->foreign("student_id")->references("id")->on("students")->onDelete('cascade');
+            $table->foreign("lecturer_id")->references("id")->on("lecturers")->onDelete('cascade');
         });
 
     }

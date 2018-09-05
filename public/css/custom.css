@@ -48,17 +48,22 @@
     background-color: #82a55b !important;
 }
 
-.pending, .in_progress, .part_payment {
-    color: #fff;
-    background-color: #ffca28;
-}
-
-.paid, .done, .delivered {
+.present{
     color: #fff;
     background-color: #9ccc65;
 }
 
-.cancelled {
+.late{
+    color: #fff;
+    background-color: #ffca28;
+}
+
+.absent_excused{
     color: #fff;
     background-color: #ef5350;
+}
+
+.absent_unexcused{
+    color: #fff;
+    background-color: #cdd2d78c;
 }
