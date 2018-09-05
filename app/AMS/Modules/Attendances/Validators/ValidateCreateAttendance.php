@@ -23,7 +23,12 @@ class ValidateCreateAttendance extends FormRequest
      */
     public function rules()
     {
-        return [];
+        return [
+            'department_id'=>'required',
+            'course_id'=>'required',
+            'date'=>'required',
+            'attendance-record'=>'required'
+        ];
     }
 
     public function messages()

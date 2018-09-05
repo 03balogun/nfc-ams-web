@@ -230,3 +230,20 @@ function doSearch(url,callback) {
         callback(tableConfig);
     });
 }
+
+function initChartPie(data = [0, 0, 0, 0]) {
+    let pieCharts = {
+        type: 'pie',
+        width: '80px',
+        height: '80px',
+        sliceColors: ['#ffca28','#9ccc65', '#42a5f5','#ef5350'],
+        highlightLighten: 1.1,
+        tooltipPrefix: '',
+        tooltipSuffix: ' Tickets',
+        // tooltipFormat: '{{prefix}}{{value}}{{suffix}}'
+    };
+    let slcPie1 = $('.js-slc-pie');
+    if ( slcPie1.length ) {
+        slcPie1.sparkline('html', pieCharts);
+    }
+}

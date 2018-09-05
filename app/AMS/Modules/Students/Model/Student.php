@@ -20,8 +20,10 @@ class Student extends Model{
     }
 
     function courses(){
-        return $this->hasMany('App\AMS\Modules\Courses\Model\StudentCourses')->with('course');
+        return $this->hasManyThrough('App\AMS\Modules\Courses\Model\Course',
+            'App\AMS\Modules\Courses\Model\StudentCourses','student_id','id','course_id','id');
     }
+
     function attendance(){
         return $this->belongsTo('App\AMS\Modules\Attendances\Model\Attendance');
     }

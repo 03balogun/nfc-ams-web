@@ -32,6 +32,7 @@ class AttendancesController extends Controller
             'data' => [
                 'lecturers' => $this->ams->lecturers()->getRecordsArray(['id','name'])->data,
                 'departments' => $this->ams->departments()->getRecordsArray(['id','name'])->data,
+                'students' => $this->ams->students()->getRecordsArray(['id','name'])->data,
                 'courses' => $this->ams->courses()->getRecordsArray(['id','title'],
                     ['key'=>'id','value'=>'title'])->data,
             ]
@@ -58,9 +59,33 @@ class AttendancesController extends Controller
      */
     public function store(ValidateCreateAttendance $request)
     {
-        $data = array_only($request->all(), ['name']);
-        $store = $this->ams->attendances()->create($data);
-        return response()->json($store);
+        $data = $request->all();
+        $req_data = array_only($data, ['department_id','course_id','date','note']);
+        $attendance_record = json_decode($data['attendance-record']);
+        $course = $this->ams->courses()->get($req_data['course_id'])->data;
+        if ($course){
+            $res = [];
+            foreach ($attendance_record as $item){
+                $res[] = $this->ams->attendances()->create([
+                    'course_id' => $item->course,
+                    'student_id' => $item->student,
+                    'department_id' => $item->dept,
+                    'lecturer_id' => $course->lecturer_id,
+                    'note' => $item->note,
+                    'status' => $item->status,
+                    'date' => $item->date
+                ]);
+            }
+            $last_item = array_last($res);
+            if (!$last_item->status && str_contains($last_item->reason,'Duplicate entry')){
+                return response()->json(systemResponse()
+                    ->status(false)->reason('Some of the student selected has already been marked,
+                     kindly review to continue'));
+            }
+            return response()->json($last_item);
+        }
+        return response()->json(systemResponse()
+            ->status(false));
     }
 
     /**
@@ -118,5 +143,22 @@ class AttendancesController extends Controller
     {
         $delete = $this->ams->attendances()->delete($id);
         return response()->json($delete);
+    }
+
+    public function chartRecords($department = null, $course = null, $date = null)
+    {
+        $present = $this->ams->attendances()->model->where('department_id', $department)
+            ->where('course_id', $course)
+            ->where('date', $date)->where('status',1)->count();
+        $late = $this->ams->attendances()->model->where('department_id', $department)
+            ->where('course_id', $course)
+            ->where('date', $date)->where('status',2)->count();
+        $absent_excused = $this->ams->attendances()->model->where('department_id', $department)
+            ->where('course_id', $course)
+            ->where('date', $date)->where('status',3)->count();
+        $absent_unexcused = $this->ams->attendances()->model->where('department_id', $department)
+            ->where('course_id', $course)
+            ->where('date', $date)->where('status',4)->count();
+        return [$present, $late, $absent_excused, $absent_unexcused];
     }
 }

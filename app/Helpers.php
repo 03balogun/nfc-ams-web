@@ -47,3 +47,13 @@ function errorSession($msg = "Operations could not be completed"){
         'error'=>$msg
     ];
 }
+
+function attendanceStatus($key = null){
+    $arr = [
+        1 => 'Present',
+        2 => 'Late',
+        3 => 'Absent Excused',
+        4 => 'Absent Unexcused'
+    ];
+    return ($key && isset($arr[$key]))?$arr[$key]:$arr;
+}

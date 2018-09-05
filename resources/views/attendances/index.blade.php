@@ -32,6 +32,29 @@
             }
         }
 
+        .attendance-list {
+            max-height: 420px;
+            overflow-y: -webkit-paged-y;
+        }
+
+        .attendance-list::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        .attendance-list::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(25, 25, 25, 0.16);
+            border-radius: 10px;
+        }
+
+        .attendance-list::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(9, 9, 9, 0.35);
+        }
+
+        .error {
+            color: #ef5654;
+        }
     </style>
 @endsection
 @section('content')
@@ -65,57 +88,62 @@
                 </div>
             </div>
             <div class="block-content">
+                <p>NOTE: Fields mark with <span class="text-danger">*</span> are required.</p>
                 <div class="row items-push">
                     <div class="col-xl-12">
-                        {{--<form action="{{route('ajax.students.records')}}" method="get" id="doSearch">--}}
-                        {{--<div class="row">--}}
-                        {{--<div class="col-md-4 form-group">--}}
-                        {{--<div>--}}
-                        {{--{!! renderForm($form->department_id,[],true) !!}--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="col-md-4 form-group">--}}
-                        {{--<div>--}}
-                        {{--{!! renderForm($form->level,[],true) !!}--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="row">--}}
-                        {{--<div class="col-md-12 text-right">--}}
-                        {{--<button class="btn btn-primary">Search <i class="fa fa-filter"></i></button>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</form>--}}
-
+                        <form action="{{route('ajax.students.records')}}" method="get" id="doSearch">
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <div>
+                                        {!! renderForm($form->department_id,['name'=>'department','id'=>'department'],true) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <div>
+                                        {!! renderForm($form->course_id,['name'=>'course','id'=>'course'],true) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <div>
+                                        {!! renderForm($form->date,['name'=>'attendance_date','id'=>'attendance_date'],true) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <button class="btn btn-primary">Search <i class="fa fa-filter"></i></button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="block block-rounded " id="attendance-wrapper-section">
-            <div class="block-header block-header-default">
-                <h3 class="block-title" style=""><i class="si si-calendar"></i> Week View</h3>
-                <div class="block-options">
-                    <button type="button" class="btn-block-option" onclick="Codebase.helpers('print-page');">
-                        <i class="si si-printer"></i> Print Attendance
-                    </button>
-                    <button type="button" class="btn-block-option" data-toggle="block-option"
-                            data-action="fullscreen_toggle"><i class="si si-size-fullscreen"></i></button>
-                    <button type="button" class="btn-block-option" id="reload-table">
-                        <i class="si si-refresh"></i>
-                    </button>
-                    <button type="button" class="btn-block-option" data-toggle="block-option"
-                            data-action="content_toggle"><i class="si si-arrow-up"></i></button>
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="block block-mode-hidden">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title"><i class="si si-pie-chart"></i> Chart Representation Of Data</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-toggle="block-option"
+                                    data-action="state_toggle" data-action-mode="demo">
+                                <i class="si si-refresh"></i>
+                            </button>
+                            <button type="button" class="btn-block-option" data-toggle="block-option"
+                                    data-action="content_toggle"><i class="si si-arrow-up"></i></button>
+                        </div>
+                    </div>
+                    <div class="block-content block-content-full text-center">
+                        <canvas class="js-chartjs-pie"></canvas>
+                    </div>
                 </div>
-            </div>
-            <div class="block-content block-content-full" id="attendance-section">
-                <h5 class="text-center">Use the search tab above to represent data in week view. Search by Department
-                    and Level</h5>
             </div>
         </div>
 
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title" style=""><i class="si si-list"></i> Time Table Records</h3>
+                <h3 class="block-title" style=""><i class="si si-list"></i> Attendance Records</h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option"
                             data-action="content_toggle"><i class="si si-arrow-up"></i></button>
@@ -125,13 +153,10 @@
                 <table class="table table-bordered table-striped table-vcenter attendances-record-table">
                     <thead>
                     <tr>
-                        <th>Course Code</th>
-                        <th>Course Title</th>
-                        <th>Department</th>
-                        <th>Level</th>
                         <th>Lecturer</th>
-                        <th>Day</th>
-                        <th>Duration</th>
+                        <th>Student</th>
+                        <th>Status</th>
+                        <th>Note</th>
                         <th class="text-center" style="width: 15%;"></th>
                     </tr>
                     </thead>
@@ -140,7 +165,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="create-attendance-modal" tabindex="-1" role="dialog"
          aria-labelledby="create-attendance-modal" aria-hidden="true">
@@ -168,11 +192,13 @@
                         <div class="js-wizard-validation-material block">
                             <ul class="nav nav-tabs nav-tabs-alt nav-fill" role="tablist">
                                 <li class="nav-item" data-ref="firstTab">
-                                    <a class="nav-link active" href="#wizard-validation-material-step1"
+                                    <a class="nav-link active" data-wizard="prev"
+                                       href="#wizard-validation-material-step1"
                                        data-toggle="tab">1. Details</a>
                                 </li>
                                 <li class="nav-item" data-ref="lastTab">
-                                    <a class="nav-link" href="#wizard-validation-material-step2" data-toggle="tab">2.
+                                    <a class="nav-link" data-wizard="next" href="#wizard-validation-material-step2"
+                                       data-toggle="tab">2.
                                         Student Attendance</a>
                                 </li>
                             </ul>
@@ -180,21 +206,22 @@
                                   action="{{route('attendances.store')}}"
                                   id="attendance-create-form"
                                   method="post" novalidate="novalidate">
+                                {{csrf_field()}}
                                 <div class="block-content block-content-full tab-content" style="min-height: 267px;">
                                     <div class="tab-pane active" id="wizard-validation-material-step1" role="tabpanel">
                                         <div class="col-md-12 form-group">
                                             <div class="form-material">
-                                                {!! renderForm($form->department_id) !!}
+                                                {!! renderForm($form->department_id,['name'=>'department_id','id'=>'department_id']) !!}
                                             </div>
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <div class="form-material">
-                                                {!! renderForm($form->course_id) !!}
+                                                {!! renderForm($form->course_id,['name'=>'course_id','id'=>'course_id']) !!}
                                             </div>
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <div class="form-material">
-                                                {!! renderForm($form->date) !!}
+                                                {!! renderForm($form->date,['name'=>'date','id'=>'date']) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -204,12 +231,66 @@
                                             <h4 class="text-white"><i class="fa fa-spinner fa-spin"></i> Saving record,
                                                 please wait...</h4>
                                         </div>
+                                        <p>
+                                            {{--<strong class="font-size-h5">Marking Guide:</strong> --}}
+                                        </p>
                                         <div class="row">
-                                            <div class="col-md-6">
-
+                                            <div class="col-md-6" style="border-right: 1px solid #cccccc47;
+                                            min-height: 200px;">
+                                                <div class="form-group">
+                                                    <div class="form-material">
+                                                        {!! renderForm($form->students) !!}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-15">
+                                                    <strong class="text-muted">Status</strong><br/>
+                                                    <label class="css-control css-control-primary css-radio">
+                                                        <input type="radio" class="css-control-input" value="1"
+                                                               name="status">
+                                                        <span class="css-control-indicator"></span> P
+                                                    </label>
+                                                    <label class="css-control css-control-primary css-radio">
+                                                        <input type="radio" class="css-control-input" value="2"
+                                                               name="status">
+                                                        <span class="css-control-indicator"></span> L
+                                                    </label>
+                                                    <label class="css-control css-control-primary css-radio">
+                                                        <input type="radio" class="css-control-input" value="3"
+                                                               name="status">
+                                                        <span class="css-control-indicator"></span> A,E
+                                                    </label>
+                                                    <label class="css-control css-control-primary css-radio">
+                                                        <input type="radio" class="css-control-input" value="4"
+                                                               name="status">
+                                                        <span class="css-control-indicator"></span> A,U
+                                                    </label>
+                                                    <br/>
+                                                    <small class="text-danger">P = Present, L = Late, AE =
+                                                        Absent,Excused, AU = Absent,Unexcused
+                                                    </small>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-material">
+                                                        {!! renderForm($form->note) !!}
+                                                        <input type="hidden" id="attendance-record"
+                                                               name="attendance-record">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-sm btn-danger btn-block" type="button"
+                                                            id="mark-btn">Mark Student
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 attendance-list">
+                                                <div id="initial-message" style="padding:10%;">
+                                                    <strong style="font-size:20px;">
+                                                        Marked student appears here
+                                                    </strong>
+                                                </div>
+                                                <ul class="list-group push" style="display: none;" id="student-list">
 
+                                                </ul>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -253,86 +334,6 @@
             </div>
         </div>
     </div>
-    {{--<div class="modal fade" id="edit-attendance-modal" tabindex="-1" role="dialog"--}}
-    {{--aria-labelledby="create-attendance-modal" aria-hidden="true">--}}
-    {{--<div class="modal-dialog modal-lg modal-dialog-slideleft" style="max-width: 1000px;" role="document">--}}
-    {{--<div class="modal-content">--}}
-    {{--{!! form_start($form,['method'=>'PUT','id'=>'attendance-update-form',--}}
-    {{--'enctype'=>'multipart/form-data','class'=>'js-validation-bootstrap']) !!}--}}
-    {{--<div class="block block-themed block-transparent mb-0">--}}
-    {{--<div class="block-header bg-primary-dark">--}}
-    {{--<h3 class="block-title">EDIT TIMETABLE</h3>--}}
-    {{--<div class="block-options">--}}
-    {{--<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">--}}
-    {{--<i class="si si-close"></i>--}}
-    {{--</button>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="text-center notification-bar" id="update-attendance-notification-bar">--}}
-    {{--<h4 class="text-white"><i class="fa fa-spinner fa-spin"></i> Saving record, please wait...</h4>--}}
-    {{--</div>--}}
-    {{--<div class="block-content">--}}
-    {{--<p>NOTE: Fields mark with <span class="text-danger">*</span> are required.</p>--}}
-
-    {{--<div class="row items-push">--}}
-    {{--<div class="col-xl-12">--}}
-    {{--<div class="row">--}}
-    {{--<div class="col-md-6 form-group">--}}
-    {{--<div class="form-material">--}}
-    {{--{!! renderForm($form->course_id) !!}--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="col-md-6 form-group">--}}
-    {{--<div class="form-material">--}}
-    {{--{!! renderForm($form->level) !!}--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="row">--}}
-    {{--<div class="col-md-6 form-group">--}}
-    {{--<div class="form-material">--}}
-    {{--{!! renderForm($form->day) !!}--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="col-md-3 form-group">--}}
-    {{--<div class="form-material">--}}
-    {{--{!! renderForm($form->start_time) !!}--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="col-md-3 form-group">--}}
-    {{--<div class="form-material">--}}
-    {{--{!! renderForm($form->end_time) !!}--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="row">--}}
-    {{--<div class="col-md-6 form-group">--}}
-    {{--<div class="form-material">--}}
-    {{--{!! renderForm($form->note) !!}--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="row">--}}
-    {{--<div class="col-md-9 form-group">--}}
-    {{--<div class="errorMessage mt-15"></div>--}}
-    {{--<div class="successMessage mt-15"></div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="modal-footer">--}}
-    {{--<button type="button" class="btn btn-alt-danger" data-dismiss="modal">Close</button>--}}
-    {{--<button class="btn btn-lg btn-primary">--}}
-    {{--Save--}}
-    {{--<i class="fa fa-save"></i>--}}
-    {{--</button>--}}
-    {{--</div>--}}
-    {{--{!! form_end($form) !!}--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
 @endsection
 @section('page-js')
     <script src="{{asset('assets/js/plugins/select2/select2.full.min.js')}}"></script>
@@ -342,13 +343,34 @@
     <script src="{{asset('assets/js/plugins/moment/moment.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script src="{{asset('assets/js/plugins/chartjs/Chart.bundle.min.js')}}"></script>
 
     <script src="{{asset('assets/js/plugins/bootstrap-wizard/jquery.bootstrap.wizard.js')}}"></script>
     <script src="{{asset('assets/js/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/jquery-validation/additional-methods.min.js')}}"></script>
     <script src="{{asset('js/attendance_wizard.js')}}"></script>
     <script>
-
+        jQuery("#doSearch").validate({
+            ignore: [],
+            errorClass: "invalid-feedback animated fadeInDown",
+            errorElement: "div",
+            errorPlacement: function (e, a) {
+                jQuery(a).parents(".form-group > div").append(e)
+            },
+            highlight: function (e) {
+                jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-invalid")
+            },
+            success: function (e) {
+                jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove()
+            }
+        });
+        let attendances = [];
+        const statusVal = {
+            1: 'P',
+            2: 'L',
+            3: 'A,E',
+            4: 'A,U'
+        };
 
         let tableConfig = {
             ajax: {url: '{{route('ajax.attendances.records')}}'},
@@ -382,13 +404,10 @@
             order: {column: "0", dir: "desc"},
             search: {regex: true},
             columns: [
-                {data: "course_code"},
-                {data: "course_title"},
-                {data: "department"},
-                {data: "level"},
                 {data: "lecturer"},
-                {data: "day"},
-                {data: "duration"},
+                {data: "student"},
+                {data: "status"},
+                {data: "note"},
                 {data: "action", orderable: false}
             ],
         };
@@ -406,7 +425,12 @@
                 $('.errorMessage').html('');
                 $('#create-attendance-modal').modal('hide');
                 swal("Success", "Record saved successfully", "success");
-                initDataTable(tableConfig);
+                attendances.length = 0;
+                $('#initial-message').show();
+                $('#student-list').hide();
+                $('li[id*=item_]').remove();
+                $('button[data-wizard="prev"]').trigger('click');
+                // initDataTable(tableConfig);
                 //refresh table
             });
 
@@ -416,43 +440,128 @@
                 $('.errorMessage').html('');
                 $('#edit-attendance-modal').modal('hide');
                 swal("Success", "Record update successfully", "success");
-                initDataTable(tableConfig);
+                // initDataTable(tableConfig);
                 //refresh table
             });
 
             Codebase.helpers(['select2', 'datepicker']);
             $('.select2-container').css('width', '100%');
-            // fetch_time_table();
 
             $('#reload-table').click(function () {
                 $('#attendance-wrapper-section').addClass('block-mode-loading');
-                fetch_time_table("", function () {
-                    $('#attendance-wrapper-section').removeClass('block-mode-loading');
-                })
             });
-            searchAttendance();
+            markAttendance();
+            initChart();
+            initDataTable(tableConfig);
+            doSearch("{{route('ajax.attendances.records')}}", function (tableConfig) {
+                initDataTable(tableConfig);
+                const url = "{{url('/ajax/attendances/chart-records/')}}";
+                $.get(`${url}/${$('#department_id').val()}/${$('#course_id').val()}/${$('#date').val()}`, function (data) {
+                    initChart(data);
+                });
+            });
         });
-
-        function fetch_time_table(query = "", callback = null) {
-            $.get(`{{route('ajax.attendances.visual.records')}}/${query}`, function (htmlRes) {
-                $('#attendance-section').html(htmlRes);
-                if (callback) callback();
-            });
-        }
 
         function initDataTable(tableConfig) {
             jQuery(".attendances-record-table").dataTable(tableConfig);
         }
 
-        function searchAttendance() {
-            $('#doSearch').submit(function (e) {
-                e.preventDefault();
-                $('#attendance-wrapper-section').addClass('block-mode-loading');
-                const query = `${$('#department_id').val()}/${$('#level').val()}`;
-                fetch_time_table(query, () => {
-                    $('#attendance-wrapper-section').removeClass('block-mode-loading');
-                })
-            })
+        function markAttendance() {
+            $('#mark-btn').click(function () {
+                const studentField = $('#students');
+                const noteField = $('#attendance_note');
+
+                let dept = $('#department_id').val();
+                let course = $('#course_id').val();
+                let date = $('#date').val();
+                let student = studentField.val();
+                let studentName = studentField.find("option:selected").text();
+                let status = $('input[name="status"]:checked').val();
+                let note = $('#attendance_note').val();
+
+                const errMsg = $('.errorMessage');
+                if (!(dept !== '' && course !== '' && date !== '' && student !== '' && status !== undefined)) {
+                    errMsg.html(`
+                    <strong class="text-danger">Kindly make sure all required fields are selected.</strong>`);
+                    return;
+                }
+                errMsg.html('');
+
+                let attObj = {
+                    dept,
+                    course,
+                    student,
+                    status,
+                    note,
+                    date,
+                };
+
+                let checkIfStudentAlreadyMarked = attendances
+                    .filter(obj => obj.student === student).length;
+                if (checkIfStudentAlreadyMarked) {
+                    errMsg.html(`
+                    <strong class="text-danger">This student has already been marked, kindly remove<br/> student from marked list if you would to make update.</strong>`);
+                    return;
+                }
+
+                attendances.push(attObj);
+                $('#attendance-record').val(JSON.stringify(attendances));
+
+                let objIndex = attendances.indexOf(attObj);
+                let htmlList = `<li id="item_${objIndex}"
+                                class="list-group-item d-flex justify-content-between align-items-center">
+                                <span class="badge badge-pill badge-success">${statusVal[status]}</span>
+                                ${studentName}
+                                <button class="btn btn-sm btn-danger removeStudentFromAttendance_${objIndex}"
+                                data-ref="${objIndex}"
+                                 type="button" title="remove"><i class="si si-trash"></i></button>
+                                </li>`;
+                $('#initial-message').hide();
+                let studentList = $('#student-list');
+                studentList.append(htmlList);
+                studentList.show();
+                studentField.val("").trigger('change');
+                noteField.val("");
+                $(`.removeStudentFromAttendance_${objIndex}`).click(function () {
+                    const data_ref = $(this).attr('data-ref');
+                    attendances.splice(data_ref, 1);
+                    $(`#item_${data_ref}`).remove();
+                    if (attendances.length < 1) {
+                        $('#initial-message').show();
+                        $('#student-list').hide();
+                    }
+                });
+
+            });
+
+        }
+
+        function initChart(data = [0, 0, 0, 0]) {
+            let chartPolarPieDonutData = {
+                labels: [
+                    'P - Present',
+                    'L - Late',
+                    'A,E - Absent Excused',
+                    'A,U - Absent Unexcused'
+                ],
+                datasets: [{
+                    data,
+                    backgroundColor: [
+                        'rgba(156,204,101,1)',
+                        'rgba(255,202,40,1)',
+                        'rgba(239,83,80,1)'
+                    ],
+                    hoverBackgroundColor: [
+                        'rgba(156,204,101,.5)',
+                        'rgba(255,202,40,.5)',
+                        'rgba(239,83,80,.5)'
+                    ]
+                }]
+            };
+            let chartPieCon = $('.js-chartjs-pie');
+            if (chartPieCon.length) {
+                new Chart(chartPieCon, {type: 'pie', data: chartPolarPieDonutData});
+            }
         }
     </script>
 @endsection

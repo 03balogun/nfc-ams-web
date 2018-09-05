@@ -111,15 +111,16 @@
                                     <i class="si si-calendar"></i>
                                     <span class="sidebar-mini-hide">Time Tables</span></a>
                             </li>
-<<<<<<< HEAD
-=======
                             <li>
                                 <a class="@yield('attendances')" href="{{route('attendances.index')}}">
                                     <i class="si si-pie-chart"></i>
                                     <span class="sidebar-mini-hide">Attendances</span></a>
                             </li>
->>>>>>> master
-
+                            <li>
+                                <a class="@yield('student_reports')" href="{{route('student_reports.index')}}">
+                                    <i class="si si-bar-chart"></i>
+                                    <span class="sidebar-mini-hide">Student Report</span></a>
+                            </li>
                             <li class="nav-main-heading"><span class="sidebar-mini-visible">MR</span><span
                                         class="sidebar-mini-hidden">More</span></li>
                             <li>
@@ -171,8 +172,8 @@
     <footer id="page-footer" class="bg-white opacity-0">
         <div class="content py-20 font-size-xs clearfix">
             <div class="float-right">
-                Crafted with
-                <i class="fa fa-heart text-pulse"></i> by <a class="font-w600" href="javascript:;" target="_blank">Balogun</a>
+                {{--Crafted with--}}
+                {{--<i class="fa fa-heart text-pulse"></i> by <a class="font-w600" href="javascript:;" target="_blank">Balogun</a>--}}
             </div>
             <div class="float-left">
                 <a class="font-w600" href="https://goo.gl/po9Usv" target="_blank">AMS</a> &copy; <span
