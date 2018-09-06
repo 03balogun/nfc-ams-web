@@ -29,14 +29,16 @@ class TimeTableForm extends Form
                 'choices' => $this->getData('courses',[]),
                 'empty_value' => [null => '--']
             ])
-            ->add('level', 'number', [
+            ->add('level', 'select', [
                 'label' => 'Course Level',
                 'attr' => [
                     'required',
                     'id' => 'level',
-                    'class' => 'form-control',
-                    'placeholder' => "Enter Level"
-                ]
+                    'class' => 'form-control js-select2',
+//                    'placeholder' => "Enter Course Level"
+                ],
+                'choices' => levels(),
+                'empty_value' => [null => '--']
             ])
             ->add('day', 'select', [
                 'label' => 'Day of Week',
