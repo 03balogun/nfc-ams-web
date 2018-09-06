@@ -36,14 +36,16 @@ class CourseForm extends Form
                     'placeholder' => "Enter Course Unit"
                 ]
             ])
-            ->add('level', 'number', [
+            ->add('level', 'select', [
                 'label' => 'Course Level',
                 'attr' => [
                     'required',
                     'id' => 'level',
-                    'class' => 'form-control',
-                    'placeholder' => "Enter Course Level"
-                ]
+                    'class' => 'form-control js-select2',
+//                    'placeholder' => "Enter Course Level"
+                ],
+                'choices' => levels(),
+                'empty_value' => [null => '--']
             ])
             ->add('department_id', 'select', [
                 'label' => 'Departments',
