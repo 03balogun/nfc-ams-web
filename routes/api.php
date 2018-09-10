@@ -16,3 +16,19 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/students/{by}/{value}/{device_id?}',[
+    'uses'=>'ApiController@getStudent'
+]);
+
+Route::put('/students/{id}',[
+    'uses'=>'ApiController@updateStudentCourses'
+]);
+
+Route::get('/courses',[
+    'uses'=>'ApiController@getCourses'
+]);
+
+Route::get('/departments',[
+    'uses'=>'ApiController@getDepartments'
+]);

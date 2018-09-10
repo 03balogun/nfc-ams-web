@@ -80,10 +80,10 @@
                     </div>
                     <div class="content-side content-side-full">
                         <ul class="nav-main">
-                            <li>
-                                <a class="@yield('dashboard')" href="javascript:;"><i class="si si-cup"></i><span
-                                            class="sidebar-mini-hide">Dashboard</span></a>
-                            </li>
+                            {{--<li>--}}
+                                {{--<a class="@yield('dashboard')" href="javascript:;"><i class="si si-cup"></i><span--}}
+                                            {{--class="sidebar-mini-hide">Dashboard</span></a>--}}
+                            {{--</li>--}}
                             <li class="nav-main-heading"><span class="sidebar-mini-visible">MG</span><span
                                         class="sidebar-mini-hidden">Manage</span></li>
                             <li>

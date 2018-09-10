@@ -39,7 +39,7 @@ class LoginController extends Controller
         $data = array_only($login->all(),['username','password','remember-me']);
         $login = $this->ams->user()->systemLogin($data, isset($data['remember-me'])?$data['remember-me']:false);
         if ($login->status){
-            return redirect()->intended('dashboard');
+            return redirect()->intended('attendances');
         }
         return redirect()->back()->with([
             'auth_error' => true,

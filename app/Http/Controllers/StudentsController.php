@@ -63,24 +63,26 @@ class StudentsController extends Controller
     public function store(ValidateCreateStudent $request)
     {
         $data = $request->all();
-        $courses = $data['courses'];
-        $data = array_only($data, ['name', 'gender',
+        $student_data = array_only($data, ['name', 'gender',
             'registration_num', 'dob', 'department_id', 'created_at']);
-        $store = $this->ams->students()->create($data);
-        if ($store->status) {
+        $store = $this->ams->students()->create($student_data);
+        if ($store->status && isset($data['courses'])) {
+            $courses = $data['courses'];
             $course_data = [];
-            foreach ($courses as $course) {
-                $model = $this->ams->courses()->get($course)->data;
-                $course_data[] = [
-                    'student_id' => $store->data->id,
-                    'course_id' => $model->id,
-                    'lecturer_id' => $model->lecturer_id,
-                ];
+            if (count($courses)) {
+                foreach ($courses as $course) {
+                    $model = $this->ams->courses()->get($course)->data;
+                    $course_data[] = [
+                        'student_id' => $store->data->id,
+                        'course_id' => $model->id,
+                        'lecturer_id' => $model->lecturer_id,
+                    ];
+                }
+                $create_courses = $this->ams->courses()->createStudentCourses($course_data);
+                //if the student course record could not create for some reason, delete the student.
+                if (!$create_courses->status) $store->data->delete();
+                return response()->json($create_courses);
             }
-            $create_courses = $this->ams->courses()->createStudentCourses($course_data);
-            //if the student course record could not create for some reason, delete the student.
-            if (!$create_courses->status) $store->data->delete();
-            return response()->json($create_courses);
         }
         return response()->json($store);
     }
@@ -137,39 +139,44 @@ class StudentsController extends Controller
     {
         //TODO refactor this code
         $data = $request->all();
-        $courses = $data['courses'];
-        $data = array_only($data, ['name', 'gender',
+        //get the keys we need from the request
+        $student_data = array_only($data, ['name', 'gender',
             'registration_num', 'dob', 'department_id', 'created_at']);
-        $update = $this->ams->students()->update($data, $id);
-        if ($update->status) {
-            $course_data = [];
-            $model = $this->getStudent($id);
-            $student_courses = (isset($model->original->data->courses))
-                ? $model->original->data->courses : [];
-            foreach ($student_courses as $course) {
-                $course_data[] = $course->course_id;
-            }
-            $to_add = array_diff($courses,$course_data);
-            $to_delete = array_diff($course_data,$courses);
-            if (count($to_delete)){
-                foreach ($to_delete as $item){
-                    $this->ams->courses()->studentCourses->where('student_id',$id)
-                        ->where('course_id',$item)->delete();
+        //update the student record
+        $update = $this->ams->students()->update($student_data, $id);
+        //check that courses are part of the request, if yes update courses
+        if (($update->status && isset($data['courses']))) {
+            $courses = is_string($data['courses'])?json_decode($data['courses']):$data['courses'];
+            if (count($courses)) {//asset that there are items in the array
+                $course_data = [];
+                $model = $this->getStudent($id); //get the student record
+                $student_courses = (isset($model->original->data->courses))
+                    ? $model->original->data->courses : [];
+                foreach ($student_courses as $course) {
+                    $course_data[] = $course->course_id;
                 }
-            }
-            if (count($to_add)){
-                $new_courses = [];
-                foreach ($to_add as $item){
-                    $model = $this->ams->courses()->get($item)->data;
-                    $new_courses[] = [
-                        'student_id' => $id,
-                        'course_id' => $item,
-                        'lecturer_id' => $model->lecturer_id,
-                    ];
-                    $this->ams->courses()->createStudentCourses($new_courses);
+                $to_add = array_diff($courses, $course_data);
+                $to_delete = array_diff($course_data, $courses);
+                if (count($to_delete)) {
+                    foreach ($to_delete as $item) {
+                        $this->ams->courses()->studentCourses->where('student_id', $id)
+                            ->where('course_id', $item)->delete();
+                    }
                 }
-            }
+                if (count($to_add)) {
+                    $new_courses = [];
+                    foreach ($to_add as $item) {
+                        $model = $this->ams->courses()->get($item)->data;
+                        $new_courses[] = [
+                            'student_id' => $id,
+                            'course_id' => $item,
+                            'lecturer_id' => $model->lecturer_id,
+                        ];
+                    }
+                    $r = $this->ams->courses()->createStudentCourses($new_courses)->data;
+                }
 
+            }
         }
 
         return response()->json($update);

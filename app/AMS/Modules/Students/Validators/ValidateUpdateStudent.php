@@ -13,7 +13,7 @@ class ValidateUpdateStudent extends FormRequest
      */
     public function authorize()
     {
-        return current_user();
+        return true;
     }
 
     /**
@@ -26,7 +26,7 @@ class ValidateUpdateStudent extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'registration_num' => 'required|max:255',
-            'department_id' => 'required|string',
+            'department_id' => 'required',
             'gender' => 'nullable|string',
             'dob' => 'nullable|date',
         ];

@@ -20,6 +20,7 @@ class CreateStudentsTable extends Migration
             $table->string('gender')->nullable();
             $table->date('dob')->nullable();
             $table->integer('department_id')->unsigned();
+            $table->longText('device_id')->nullable();
             $table->timestamps();
 
             $table->foreign("department_id")->references("id")->on("departments")->onDelete('cascade');

@@ -22,9 +22,4 @@ class Course extends Model
         return $this->belongsTo('App\AMS\Modules\Departments\Model\Department');
     }
 
-    function services(){
-        return $this->hasMany('App\AMS\Modules\Courses\Model\OrderServices');
-    }
-
-
 }
