@@ -92,7 +92,7 @@ class ApiController extends Controller
                     $this->ams->students()->get($data['registration_num'],'registration_num')->data;
                 if (!$check)return response()->json(systemResponse()->status(false));
             }
-            if (!isset($data['courses']) && count(json_decode($data['courses'])) < 1){
+            if (!isset($data['courses'])){
                 return response()->json(systemResponse()->status(false)->reason('Invalid Course Data'));
             }
             $response = (new StudentsController($this->ams))->update($request,$id);
