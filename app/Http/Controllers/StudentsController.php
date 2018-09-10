@@ -111,8 +111,8 @@ class StudentsController extends Controller
     {
         if ($id) {
             $srecord = $this->ams->students()->model->where('id', $id)->with('courses')->get();
-            $student = ($srecord) ? $srecord->first() : [];
-            return response()->json(systemResponse()->status(count($student) ? true : false)->data($student));
+            $student = ($srecord) ? $srecord->first() : null;
+            return response()->json(systemResponse()->status($student ? true : false)->data($student));
         }
         return response()->json(systemResponse()->status(false));
     }
