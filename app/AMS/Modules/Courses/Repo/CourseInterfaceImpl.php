@@ -27,8 +27,13 @@ Class CourseInterfaceImpl extends AmsSystem implements CourseInterface
     function createStudentCourses(array $data)
     {
         try {
-            $record = $this->studentCourses->insert($data);
-            if ($record) return systemResponse()->data($record);
+            $record = [];
+            foreach ($data as $item => $value){
+                $keys = array_keys($value);
+                $values = array_values($value);
+                $record[] = StudentCourses::updateOrInsert($value,$value);
+            }
+            if (count($record)) return systemResponse()->data(true);
             return systemResponse()->status(false)->reason($record);
         } catch (\Exception $e) {
             return systemResponse()

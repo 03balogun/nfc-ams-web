@@ -27,7 +27,6 @@ class ValidateCreateStudent extends FormRequest
             'name' => 'required|string|max:255',
             'registration_num' => 'required|unique:students|string|max:255',
             'department_id' => 'required|string',
-            'courses' => 'required',
             'gender' => 'nullable|string',
             'dob' => 'nullable|date',
         ];

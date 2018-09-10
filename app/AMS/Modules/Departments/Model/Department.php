@@ -14,4 +14,8 @@ class Department extends Model
      */
     protected $guarded = ['id'];
 
+    function courses (){
+        return $this->hasMany('App\AMS\Modules\Courses\Model\Course');
+    }
+
 }

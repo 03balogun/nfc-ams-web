@@ -40,7 +40,7 @@ class AmsSystem
             return systemResponse()
                 ->code($e->getCode())
                 ->status(false)
-                ->reason($e->getMessage());
+                ->reason("Operation could not be completed");
         }
     }
 
@@ -49,18 +49,20 @@ class AmsSystem
      * @param string $value value to use with the by param
      * @param string $by default ID
      * @param array $columns array of columns to select defaults to all
+     * @param array $with
      * @return SystemResponse
      */
-    function get($value ,$by = 'id' ,$columns = ['*'] ){
+    function get($value ,$by = 'id' ,$columns = ['*'], $with = [] ){
         try{
-            $data = $this->model->where($by,$value)->select($columns)->get();
-            return systemResponse()->data(($by == 'id')?$data->first():$data);
+            $data = $this->model->where($by,$value)->select($columns);
+            if (count($with)) $data->with($with);
+            return systemResponse()->data(($by == 'id' || $by !=null)?$data->first():$data->get());
         }catch (\Exception $e){
             Log::critical($e->getMessage());
             return systemResponse()
                 ->code($e->getCode())
                 ->status(false)
-                ->reason($e->getMessage());
+                ->reason("Operation could not be completed");
         }
     }
 
@@ -82,7 +84,7 @@ class AmsSystem
             return systemResponse()
                 ->code($e->getCode())
                 ->status(false)
-                ->reason($e->getMessage());
+                ->reason("Operation could not be completed");
         }
     }
 
@@ -106,7 +108,7 @@ class AmsSystem
             return systemResponse()
                 ->code($e->getCode())
                 ->status(false)
-                ->reason($e->getMessage());
+                ->reason("Operation could not be completed");
         }
     }
 
@@ -129,7 +131,7 @@ class AmsSystem
             return systemResponse()
                 ->code($e->getCode())
                 ->status(false)
-                ->reason($e->getMessage());
+                ->reason("Operation could not be completed");
         }
     }
 
@@ -150,7 +152,7 @@ class AmsSystem
         }catch (\Exception $e){
             dd($e->getMessage());
             Log::critical($e->getMessage());
-            return systemResponse()->reason($e->getMessage())->status(false);
+            return systemResponse()->reason("Operation could not be completed")->status(false);
         }
     }
 
@@ -171,7 +173,7 @@ class AmsSystem
             $data['file_path'] = $path;
         } catch (\Exception $e) {
             Log::error($e->getTraceAsString());
-            return systemResponse()->reason($e->getMessage())->code(500)->status(false);
+            return systemResponse()->reason("Operation could not be completed")->code(500)->status(false);
         }
         return systemResponse()->data($data);
     }

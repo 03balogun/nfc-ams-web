@@ -40,7 +40,6 @@ class StudentForm extends Form
             ->add('courses', 'select', [
                 'label' => 'Courses',
                 'attr' => [
-                    'required',
                     'name'=>'courses[]',
                     'multiple',
                     'id' => 'courses',

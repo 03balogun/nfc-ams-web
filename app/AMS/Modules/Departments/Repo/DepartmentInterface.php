@@ -65,4 +65,12 @@ Interface DepartmentInterface
      */
     function getRecordsArray($columns = ['*'],array $options = ['key'=>'id','value'=>'name'], $value = null,$by = 'id');
 
+    /**
+     * @param array $columns
+     * @param null $value
+     * @param string $by
+     * @return SystemResponse
+     */
+    function getDepartmentsWithCourses($columns = ['*'], $value = null,$by = 'id');
+
 }

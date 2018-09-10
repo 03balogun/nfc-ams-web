@@ -112,8 +112,7 @@ class DataTablesController extends Controller
                 })
                 ->editColumn('lecturer_id', function ($row) {
                     $html = '';
-                    $route = route('lecturers.show', $row->id);
-                    $html .= "<a href='$route'>$row->lecturer_id</a>";
+                    $html .= "<a href='javascript:;'>$row->lecturer_id</a>";
                     return $html;
                 })
                 ->editColumn('created_at', function ($row) {
@@ -149,16 +148,14 @@ class DataTablesController extends Controller
                 })
                 ->editColumn('lecturer_id', function ($row) {
                     $html = '';
-                    $route = route('lecturers.show', $row->id);
                     $name = ($row->lecturer) ? $row->lecturer->name : '--';
-                    $html .= "<a href='$route'>$name</a>";
+                    $html .= "<a href='javascript:;'>$name</a>";
                     return $html;
                 })
                 ->editColumn('department_id', function ($row) {
                     $html = '';
-                    $route = route('departments.show', $row->id);
                     $name = ($row->department) ? $row->department->name : '--';
-                    $html .= "<a href='$route'>$name</a>";
+                    $html .= "<a href='javascript:;'>$name</a>";
                     return $html;
                 })
                 ->editColumn('created_at', function ($row) {
@@ -167,7 +164,7 @@ class DataTablesController extends Controller
                     return $html;
                 })
                 ->addColumn('action', function ($row) use ($module_name) {
-                    $config = ['show' => true, 'edit' => true, 'delete' => true];
+                    $config = ['edit' => true, 'delete' => true];
                     $html = view('shared.action_button', compact('module_name', 'row', 'config'));
                     return $html;
                 })
