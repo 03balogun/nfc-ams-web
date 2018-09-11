@@ -40,9 +40,10 @@ Interface CourseInterface
      * @param string $value value to use with the by param
      * @param string $by default ID
      * @param array $columns array of columns to select defaults to all
+     * @param array $with
      * @return SystemResponse
      */
-    function get($value ,$by = 'id' ,$columns = ['*'] );
+    function get($value ,$by = 'id' ,$columns = ['*'], $with = [] );
 
     /**
      * @description get all record by certain condition

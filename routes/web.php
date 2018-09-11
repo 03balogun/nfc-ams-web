@@ -84,6 +84,11 @@ Route::group(['middleware' => ['SentinelAuth']], function () {
         'as' => 'ajax.courses.records'
     ]);
 
+    Route::get('/ajax/courses/students/{id?}', [
+        'uses' => 'CoursesController@getCourseStudent',
+        'as' => 'ajax.courses.get.students'
+    ]);
+
     Route::get('/ajax/courses/get/{id?}', [
         'uses' => 'CoursesController@getCourse',
         'as' => 'ajax.courses.get'

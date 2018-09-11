@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <div>
-                                        {!! renderForm($form->students,['required'],true) !!}
+                                        {!! renderForm($form->report_field_students,[],true) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-4 form-group">

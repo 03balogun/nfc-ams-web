@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{asset('assets/js/plugins/select2/select2-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/js/plugins/fullcalendar/fullcalendar.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/js/plugins/datetime-picker/jquery.datetimepicker.min.css')}}">
     <style>
         @media print {
             body * {
@@ -54,6 +55,14 @@
 
         .error {
             color: #ef5654;
+        }
+
+        .calendar-popup-input-wrapper {
+            width: 97%;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            padding: 0;
         }
     </style>
 @endsection
@@ -344,7 +353,7 @@
     <script src="{{asset('assets/js/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/chartjs/Chart.bundle.min.js')}}"></script>
-
+    <script src="{{asset('assets/js/plugins/datetime-picker/jquery.datetimepicker.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/bootstrap-wizard/jquery.bootstrap.wizard.js')}}"></script>
     <script src="{{asset('assets/js/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/jquery-validation/additional-methods.min.js')}}"></script>
@@ -415,6 +424,7 @@
         jQuery(function () {
             // initDataTable(tableConfig);
             // validateForm();
+            $('.attendance-date').CalendarPopup();
             $('.create-attendance-modal-toggle').click(function () {
                 $('#create-attendance-modal').modal('show');
             });
@@ -460,6 +470,8 @@
                     initChart(data);
                 });
             });
+
+            fetchCourseStudent();
         });
 
         function initDataTable(tableConfig) {
@@ -562,6 +574,31 @@
             if (chartPieCon.length) {
                 new Chart(chartPieCon, {type: 'pie', data: chartPolarPieDonutData});
             }
+        }
+
+        function fetchCourseStudent() {
+            const url = '{{route('ajax.courses.get.students')}}';
+            $('#course_id').change(function () {
+                let selected = $(this).val();
+                let student_field = $('#students');
+
+                $.get(`${url}/${selected}`, function ({data}) {
+                    if (data) {
+                        let {students} = data;
+                        student_field.find('option').remove().end();
+                        students.unshift({student:{id:"",name:"-- select one --"}});
+                        $.each(students, function (i, e) {
+                            if (e.student) {
+                                student_field
+                                    .append($("<option></option>")
+                                        .attr("value", e.student.id).text(e.student.name));
+                            }
+                        })
+                    }
+                    student_field.trigger('change');
+                })
+
+            })
         }
     </script>
 @endsection

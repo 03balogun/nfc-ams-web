@@ -119,4 +119,10 @@ class CoursesController extends Controller
         $delete = $this->ams->courses()->delete($id);
         return response()->json($delete);
     }
+
+    public function getCourseStudent($course_id)
+    {
+        $course_students = $this->ams->courses()->get($course_id,'id',['*'],['students']);
+        return response()->json($course_students);
+    }
 }
