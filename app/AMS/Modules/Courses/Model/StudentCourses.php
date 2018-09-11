@@ -18,7 +18,7 @@ class StudentCourses extends Model
     function student()
     {
         return $this->belongsTo('App\AMS\Modules\Students\Model\Student',
-            'id','student_id');
+            'student_id','id');
     }
 
     function course()

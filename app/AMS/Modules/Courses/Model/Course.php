@@ -22,4 +22,8 @@ class Course extends Model
         return $this->belongsTo('App\AMS\Modules\Departments\Model\Department');
     }
 
+    function students(){
+        return $this->hasMany('App\AMS\Modules\Courses\Model\StudentCourses')->with(['student']);
+    }
+
 }

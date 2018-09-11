@@ -32,7 +32,6 @@ class AttendancesController extends Controller
             'data' => [
                 'lecturers' => $this->ams->lecturers()->getRecordsArray(['id','name'])->data,
                 'departments' => $this->ams->departments()->getRecordsArray(['id','name'])->data,
-                'students' => $this->ams->students()->getRecordsArray(['id','name'])->data,
                 'courses' => $this->ams->courses()->getRecordsArray(['id','title'],
                     ['key'=>'id','value'=>'title'])->data,
             ]

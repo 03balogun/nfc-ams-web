@@ -8,17 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Attendance Management System :: @yield('title')</title>
     <meta name="description"
-          content="Discussion Platform">
-    <meta name="author" content="Balogun Wahab">
-    <meta name="theme-color" content="#42a5f5"/>
+          content="NFC Attendance Management System">
+    <meta name="author" content="makybenniemandy">
     <meta name="csrf-token" content="{{csrf_token()}}">
-    <meta property="og:title" content="AMS">
-    <meta property="og:site_name" content="AMS">
-    <meta property="og:description"
-          content="Attendance Management System">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
     <link rel="stylesheet" id="css-main" href="{{asset('assets/css/style.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     @yield('page-css')
@@ -121,13 +113,13 @@
                                     <i class="si si-bar-chart"></i>
                                     <span class="sidebar-mini-hide">Student Report</span></a>
                             </li>
-                            <li class="nav-main-heading"><span class="sidebar-mini-visible">MR</span><span
-                                        class="sidebar-mini-hidden">More</span></li>
-                            <li>
-                                <a class="@yield('users')" href="javascript:;">
-                                    <i class="si si-user-following"></i>
-                                    <span class="sidebar-mini-hide">Users</span></a>
-                            </li>
+                            {{--<li class="nav-main-heading"><span class="sidebar-mini-visible">MR</span><span--}}
+                                        {{--class="sidebar-mini-hidden">More</span></li>--}}
+                            {{--<li>--}}
+                                {{--<a class="@yield('users')" href="javascript:;">--}}
+                                    {{--<i class="si si-user-following"></i>--}}
+                                    {{--<span class="sidebar-mini-hide">Users</span></a>--}}
+                            {{--</li>--}}
                         </ul>
                     </div>
                 </div>

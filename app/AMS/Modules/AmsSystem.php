@@ -59,10 +59,11 @@ class AmsSystem
             return systemResponse()->data(($by == 'id' || $by !=null)?$data->first():$data->get());
         }catch (\Exception $e){
             Log::critical($e->getMessage());
+            dd($e->getMessage());
             return systemResponse()
                 ->code($e->getCode())
                 ->status(false)
-                ->reason("Operation could not be completed");
+                ->reason($e->getMessage());
         }
     }
 

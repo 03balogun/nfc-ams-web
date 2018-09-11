@@ -33,6 +33,17 @@ class AttendanceForm extends Form
                 'label' => 'Search Student',
                 'attr' => [
                     'id' => 'students',
+                    'required',
+                    'class' => 'form-control js-select2',
+                    'placeholder' => 'Select course load',
+                ],
+                'choices' => [],
+                'empty_value' => [null => '--']
+            ])
+            ->add('report_field_students', 'select', [
+                'label' => 'Search Student',
+                'attr' => [
+                    'id' => 'students',
                     'class' => 'form-control js-select2',
                 ],
                 'choices' => $this->getData('students',[]),
@@ -58,16 +69,12 @@ class AttendanceForm extends Form
                 ]
             ])
             ->add('date', 'text', [
-                'label' => 'Attendace Date',
+                'label' => 'Attendance Date',
                 'attr' => [
                     'id' => 'date',
                     'required',
                     'name' => 'date',
-                    "data-autoclose"=>"true",
-                    "data-today-highlight"=>"true",
-                    'class' => 'js-datepicker form-control',
-                    'data-date-format' => "yyyy-mm-dd",
-                    'placeholder' => "yyyy-mm-dd"
+                    'class' => 'attendance-date form-control'
                 ]
             ])
             ->add('level', 'number', [
