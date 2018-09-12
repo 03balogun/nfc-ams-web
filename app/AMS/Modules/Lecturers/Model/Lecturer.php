@@ -13,17 +13,10 @@ class Lecturer extends Model{
      */
     protected $guarded = ['id'];
 
-    function total(){
-        return $this->count();
+    public function courses()
+    {
+        return $this->hasMany('App\AMS\Modules\Courses\Model\Course','lecturer_id','id')
+            ->with('students');
     }
-
-    function mostExpensive(){
-        return $this->count();
-    }
-
-    function leastExpensive(){
-        return $this->count();
-    }
-
 
 }

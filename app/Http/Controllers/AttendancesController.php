@@ -78,8 +78,8 @@ class AttendancesController extends Controller
             $last_item = array_last($res);
             if (!$last_item->status && str_contains($last_item->reason,'Duplicate entry')){
                 return response()->json(systemResponse()
-                    ->status(false)->reason('Some of the student selected has already been marked,
-                     kindly review to continue'));
+                    ->status(false)->data('exists')
+                    ->reason('Some of the student selected has already been marked, kindly review to continue'));
             }
             return response()->json($last_item);
         }
