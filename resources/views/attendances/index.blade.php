@@ -424,7 +424,14 @@
         jQuery(function () {
             // initDataTable(tableConfig);
             // validateForm();
-            $('.attendance-date').CalendarPopup();
+            // $('#date').CalendarPopup({
+            //     format: 'YYYY-MM-DD HH:mm',
+            //     timepicker: false,
+            // });
+            // $('#attendance_date').CalendarPopup({
+            //     timepicker: false,
+            //     format: 'YYYY-MM-DD'
+            // });
             $('.create-attendance-modal-toggle').click(function () {
                 $('#create-attendance-modal').modal('show');
             });
@@ -466,7 +473,7 @@
             doSearch("{{route('ajax.attendances.records')}}", function (tableConfig) {
                 initDataTable(tableConfig);
                 const url = "{{url('/ajax/attendances/chart-records/')}}";
-                $.get(`${url}/${$('#department_id').val()}/${$('#course_id').val()}/${$('#date').val()}`, function (data) {
+                $.get(`${url}/${$('#department').val()}/${$('#course').val()}/${$('#attendance_date').val()}`, function (data) {
                     initChart(data);
                 });
             });
@@ -557,22 +564,28 @@
                     'A,U - Absent Unexcused'
                 ],
                 datasets: [{
-                    data,
+                    data: data || [0,0,0,],
                     backgroundColor: [
                         'rgba(156,204,101,1)',
                         'rgba(255,202,40,1)',
-                        'rgba(239,83,80,1)'
+                        '#212529',
+                        '#ef5350'
                     ],
                     hoverBackgroundColor: [
                         'rgba(156,204,101,.5)',
                         'rgba(255,202,40,.5)',
-                        'rgba(239,83,80,.5)'
+                        '#212529',
+                        '#ef5350'
                     ]
                 }]
             };
             let chartPieCon = $('.js-chartjs-pie');
             if (chartPieCon.length) {
-                new Chart(chartPieCon, {type: 'pie', data: chartPolarPieDonutData});
+                try {
+                    new Chart(chartPieCon, {type: 'pie', data: chartPolarPieDonutData})
+                }catch (e) {
+                    console.log(e);
+                }
             }
         }
 

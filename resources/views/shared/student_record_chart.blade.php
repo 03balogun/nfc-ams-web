@@ -1,6 +1,7 @@
 <div class="row">
     @if(isset($records))
         @foreach($records as $item => $values)
+            @if(array_sum($values))
             <div class="col-md-2">
                 <span class="sparkline">
                     @foreach($values as $value)
@@ -11,6 +12,7 @@
                     {{$item}}
                 </div>
             </div>
+            @endif
         @endforeach
     @else
         <div class="col-md-12">

@@ -60,10 +60,10 @@
 
 .absent_excused{
     color: #fff;
-    background-color: #ef5350;
+    background-color: #212529;
 }
 
 .absent_unexcused{
     color: #fff;
-    background-color: #cdd2d78c;
+    background-color: #ef5350;
 }
