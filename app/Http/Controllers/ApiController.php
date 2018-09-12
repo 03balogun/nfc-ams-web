@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\AMS\Ams;
+use App\AMS\Modules\Attendances\Validators\ValidateCreateAttendance;
+use App\AMS\Modules\Departments\Model\Department;
 use App\AMS\Modules\Students\Validators\ValidateUpdateStudent;
 use Illuminate\Http\Request;
 
@@ -34,6 +36,20 @@ class ApiController extends Controller
             }
 
             return response()->json($res);
+        }catch (\Exception $e){
+            return response()->json(systemResponse()
+                ->reason("Whoops! Unexpected error happened"))->setStatusCode(500);
+        }
+
+    }
+
+    public function getDepartmentStudent()
+    {
+
+        try{
+            $departments =  Department::with('students')
+                ->get();
+            return response()->json(systemResponse()->data($departments));
         }catch (\Exception $e){
             return response()->json(systemResponse()
                 ->reason($e->getMessage()))->setStatusCode(500);
@@ -77,12 +93,13 @@ class ApiController extends Controller
             return response()->json($responses);
         }catch (\Exception $e){
             return response()->json(systemResponse()
-                ->reason($e->getMessage()))->setStatusCode(500);
+                ->reason("Whoops! Unexpected error happened"))->setStatusCode(500);
         }
     }
 
     /**
-     * @param Request $request
+     * @param ValidateUpdateStudent $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateStudentCourses(ValidateUpdateStudent $request, $id){
         try{
@@ -104,4 +121,36 @@ class ApiController extends Controller
                 ->reason($e->getMessage()))->setStatusCode(500);
         }
     }
+
+    public function getLecturer($by, $value, $device_id = null)
+    {
+
+        try{
+            if ($by == 'lecturer_id') $value = str_replace('-','/',$value);
+            $res = $this->ams->lecturers()->get($value,$by,['*'],['courses']);
+            return response()->json($res);
+        }catch (\Exception $e){
+            return response()->json(systemResponse()
+                ->reason($e->getMessage()))->setStatusCode(500);
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function takeAttendance(ValidateCreateAttendance $request)
+    {
+        try{
+            $response = (new AttendancesController($this->ams))->store($request);
+            return response()->json($response->original);
+        }catch (\Exception $e){
+            return response()->json(systemResponse()
+                ->reason($e->getMessage()))->setStatusCode(500);
+        }
+
+    }
+
+
 }

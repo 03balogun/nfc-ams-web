@@ -18,4 +18,8 @@ class Department extends Model
         return $this->hasMany('App\AMS\Modules\Courses\Model\Course');
     }
 
+    function students (){
+        return $this->hasMany('App\AMS\Modules\Students\Model\Student');
+    }
+
 }

@@ -40,7 +40,7 @@ class AmsSystem
             return systemResponse()
                 ->code($e->getCode())
                 ->status(false)
-                ->reason("Operation could not be completed");
+                ->reason($e->getMessage());
         }
     }
 

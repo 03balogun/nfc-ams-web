@@ -32,3 +32,15 @@ Route::get('/courses',[
 Route::get('/departments',[
     'uses'=>'ApiController@getDepartments'
 ]);
+
+Route::get('/departments/students',[
+    'uses'=>'ApiController@getDepartmentStudent'
+]);
+
+Route::get('/lecturers/{by}/{value}',[
+    'uses'=>'ApiController@getLecturer'
+]);
+
+Route::post('/attendances',[
+    'uses'=>'ApiController@takeAttendance'
+]);
