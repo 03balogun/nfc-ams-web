@@ -74,7 +74,11 @@ class AttendanceForm extends Form
                     'id' => 'date',
                     'required',
                     'name' => 'date',
-                    'class' => 'attendance-date form-control'
+                    'class' => 'js-datepicker form-control',
+                    'data-date-format'=>"yyyy-mm-dd",
+                    "data-autoclose"=>"true",
+                    "data-today-highlight"=>"true",
+                    "placeholder"=>"Choose date",
                 ]
             ])
             ->add('level', 'number', [
