@@ -564,7 +564,7 @@
                     'A,U - Absent Unexcused'
                 ],
                 datasets: [{
-                    data: data || [0,0,0,],
+                    data: data || [0, 0, 0,],
                     backgroundColor: [
                         'rgba(156,204,101,1)',
                         'rgba(255,202,40,1)',
@@ -583,7 +583,7 @@
             if (chartPieCon.length) {
                 try {
                     new Chart(chartPieCon, {type: 'pie', data: chartPolarPieDonutData})
-                }catch (e) {
+                } catch (e) {
                     console.log(e);
                 }
             }
@@ -599,7 +599,7 @@
                     if (data) {
                         let {students} = data;
                         student_field.find('option').remove().end();
-                        students.unshift({student:{id:"",name:"-- select one --"}});
+                        students.unshift({student: {id: "", name: "-- select one --"}});
                         $.each(students, function (i, e) {
                             if (e.student) {
                                 student_field
