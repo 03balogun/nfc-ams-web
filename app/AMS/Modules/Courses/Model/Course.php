@@ -26,4 +26,8 @@ class Course extends Model
         return $this->hasMany('App\AMS\Modules\Courses\Model\StudentCourses')->with(['student']);
     }
 
+    function timetables(){
+        return $this->hasMany('App\AMS\Modules\TimeTables\Model\TimeTable');
+    }
+
 }
